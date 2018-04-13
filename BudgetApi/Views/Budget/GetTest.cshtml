@@ -1,0 +1,12 @@
+﻿@model BudgetApi.ViewModels.BudgetViewModel
+
+
+@foreach (var budget in Model.budgets)
+{
+    <div>
+        <p>@budget</p>
+        @budget.id - @budget.Type @budget.Description @budget.Value
+    </div>
+
+}
+
