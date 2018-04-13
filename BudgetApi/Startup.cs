@@ -25,6 +25,15 @@ namespace BudgetApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder => {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
+            
             services.AddSingleton<IRepositoryBudget, RepositoryMemoryBudget>();
         }
 
@@ -35,7 +44,11 @@ namespace BudgetApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //importante ser antes do UseMvc
+            //app.UseCors(builder => builder.WithOrigins("http://127.0.0.1:5500/")
+            //                        .AllowAnyHeader()/*defiinindo a politicia*/
+            //);
+            app.UseCors("MyPolicy");
             //app.UseMvc();
             app.UseMvcWithDefaultRoute();
         }

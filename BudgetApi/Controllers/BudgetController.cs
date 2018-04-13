@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using BudgetApi.Domain;
 using BudgetApi.Domain.memory;
 using BudgetApi.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetApi.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("MyPolicy")]
     public class BudgetController : Controller
     {
         private IRepositoryBudget _budget;
