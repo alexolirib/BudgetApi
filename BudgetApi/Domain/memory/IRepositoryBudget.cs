@@ -12,5 +12,7 @@ namespace BudgetApi.Domain.memory
         Budget getById(int id);
 
         void add(Budget budgets);
+
+        void remove(Budget budget);
     }
 }

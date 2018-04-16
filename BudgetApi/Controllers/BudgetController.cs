@@ -43,6 +43,20 @@ namespace BudgetApi.Controllers
             return new NoContentResult();
         }
 
+        [HttpDelete]
+        public IActionResult Delete([FromBody] Budget budget)
+        {
+            var chosenBudget = _budget.getById(budget.id);
+            if(chosenBudget == null)
+            {
+                return BadRequest();
+            }
+
+            _budget.remove(chosenBudget);
+
+            return Ok("Deu certo!");
+        }
+
         //retornar um get
         [HttpGet]
         public IEnumerable<Budget> GetApi()
@@ -72,5 +86,7 @@ namespace BudgetApi.Controllers
             };
             return View(budgetVM);
         }
+
+        
     }
 }

@@ -58,18 +58,136 @@ var budgetController = (()=> {
         data.valueData["amount"] = amount;
     }
 
+    let api={        
+        budget: 'http://localhost:64041/api/budget',
+    }
+
+    //usando jquery
+    let doPost = node =>{
+        console.log(node);
+        $.ajax({
+            url: api.budget,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(node)
+        })
+    }
+
+    //usando jquery
+    let doGet = () =>{
+        let dataGet;        
+        let a = $.ajax({
+            url: api.budget,
+            type: "get",
+            contentType: 'application/json',
+            success: (itens) =>{
+                for(let item of itens){
+                    controller.initDataApi(item);
+                } 
+             }
+        })/*.done(data =>{
+            console.log(data[0]);
+        });*/
+        // let b = $.getJSON(api.budget, (data)=>{
+        //     console.log(data);
+        // })
+    }
+
+    //com Promises do ES6 declara consulta
+    //buscar...
+    let doGet1 = ()=>{
+        fetch(api.budget)
+            .then(result =>{
+                //console.log(result);
+                return result.json();//irá retornar uma promises pendente, para eu fazer a requisição
+            })
+            .then(data =>{
+                console.log(data);
+            })
+            .catch(err => console.log(err));
+    }
+
+    let doPost1 = (node)=>{
+        fetch(api.budget ,{
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(node)
+            //'json=' + encodeURIComponent(JSON.stringify(node))
+        })
+        .catch(err => console.log(err));
+            
+    }
+
+    let doDelete1 = (node)=>{
+        fetch(api.budget,{
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(node)
+        })
+    }
+
+    //fazer de forma assíncrono
+    let doGet2 = async ()=>{
+        try{
+            let result = await fetch(api.budget);
+            data = await result.json();
+            return data;
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    let doPost2 = async (node) =>{
+        try{
+            await fetch(api.budget,{
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(node)
+            })
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
     return{
+        getDataApi: () =>{
+            let dataBudget = doGet();
+            //console.log(dataBudget);
+        },
         getDetails: (node)=>{
-            let newElement, id;
-            let positionArray = data.allData[node.type].length;
-            if(positionArray >0){
-                id = data.allData[node.type][data.allData[node.type].length - 1].id + 1;
-            } else{
-                id = 0;
+            let newElement = node;
+            let id;
+            
+            //aqui faz a identificação se é um elemento novo ou se está pegando do servidor
+            if(node.id === undefined){
+                let positionArray = data.allData[node.type].length;
+                if(positionArray >0){
+                    id = data.allData[node.type][data.allData[node.type].length - 1].id + 1;
+                } else{
+                    id = 0;
+                }
+
+                //doPost(node);
+                //doPost1(node);
+                doPost2(node);
+                newElement = new element(node,id);           
             }
 
+            //doGet();
+            //doGet1();
+            //doGet2();
+
             //aqui é feito a instanciação do novo objeto
-            newElement = new element(node,id);            
 
             //add na lista
             data.allData[newElement.type].push(newElement);
@@ -94,6 +212,7 @@ var budgetController = (()=> {
                 
                 index++;
             }
+            doDelete1(item);
             upDateValues();
         }
         
@@ -116,33 +235,33 @@ var UIController = (()=> {
     }
 
     var internalBlock ={
-     inc : (node)=>{
-        var block = `<div class="item clearfix" id="inc${node.id}">
-        <div class="item__description">${node.description}</div>
-        <div class="right clearfix">
-        <div class="item__value">${node.value}</div>
-        <div class="item__delete">
-        <button class="item__delete--btn" id="btninc${node.id}"><i class="ion-ios-close-outline"></i></button>
-        </div>
-        <div>
-        </div>`
-        return block;
-    },
+        inc : (node)=>{
+            var block = `<div class="item clearfix" id="inc${node.id}">
+            <div class="item__description">${node.description}</div>
+            <div class="right clearfix">
+            <div class="item__value">${node.value}</div>
+            <div class="item__delete">
+            <button class="item__delete--btn" id="btninc${node.id}"><i class="ion-ios-close-outline"></i></button>
+            </div>
+            <div>
+            </div>`
+            return block;
+        },
 
-     exp : (node)=>{
-        var block = `<div class="item clearfix" id="exp${node.id}">
-        <div class="item__description">${node.description}</div>
-        <div class="item__percentage">21%</div>
-        <div class="right clearfix">
-        <div class="item__value">${node.value}</div>
-        <div class="item__delete">
-        <button class="item__delete--btn"  id="btnexp${node.id}"><i class="ion-ios-close-outline"></i></button>
-        </div>
-        <div>
-        </div>`
-        return block;
+        exp : (node)=>{
+            var block = `<div class="item clearfix" id="exp${node.id}">
+            <div class="item__description">${node.description}</div>
+            <div class="item__percentage">21%</div>
+            <div class="right clearfix">
+            <div class="item__value">${node.value}</div>
+            <div class="item__delete">
+            <button class="item__delete--btn"  id="btnexp${node.id}"><i class="ion-ios-close-outline"></i></button>
+            </div>
+            <div>
+            </div>`
+            return block;
+        }
     }
-}
 
 
     return{
@@ -153,7 +272,7 @@ var UIController = (()=> {
                 // value: document.querySelector(codHtml.codValue).value
                 type: $(codHtml.codType).val(),
                 description: $(codHtml.codDescription).val(),
-                value: $(codHtml.codValue).val()
+                value: parseFloat($(codHtml.codValue).val())
             }
         },
         htmlCod: ()=>{
@@ -210,19 +329,23 @@ var controller = ((budget, UI) => {
     let SaveAccount = ()=>{
         let item = UI.details();
         if(item.value > 0 && item.description.trim()!=="" && !isNaN(item.value)){
-           newItem = budget.getDetails(item);
-        
-        //console.log(newItem);
-            UI.renderScreen(newItem);
-            let _values = budget.getValues();
-            UI.upDateValues(_values)
-            UI.clearField();
+            addNewItem(item);
         }
+    }
+    
+    //irá ser chamado quando for iniciar programa pela api ou quando for adicionado um novo
+    let addNewItem = (item)=>{
+        newItem = budget.getDetails(item);
+        UI.renderScreen(newItem);
+        let _values = budget.getValues();
+        UI.upDateValues(_values)
+        UI.clearField();
     }
 
     var setupEvents = ()=>{  
 
         let codHtml = UI.htmlCod();
+        budget.getDataApi();
     
         //document.querySelector(codHtml.codBtn).addEventListener("click", SaveAccount);
 
@@ -245,6 +368,9 @@ var controller = ((budget, UI) => {
         init: ()=>{
             console.log("Start Application")
             setupEvents();
+        },
+        initDataApi: (item) =>{
+            addNewItem(item);
         },
         removeBlock: (blockChild,item) =>{
             UI.removeElement(blockChild);

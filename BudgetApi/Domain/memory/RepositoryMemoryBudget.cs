@@ -9,37 +9,44 @@ namespace BudgetApi.Domain.memory
     {
         List<Budget> BudgetsList = new List<Budget>
         {
-            new Budget
-            {
-                id= 1,
-                Description = "Cachorro",
-                Type = "inc",
-                Value = 100
+            //new Budget
+            //{
+            //    id= 1,
+            //    Description = "Cachorro",
+            //    Type = "inc",
+            //    Value = 100
 
-            },
+            //},
 
-            new Budget
-            {
-                id= 2,
-                Description = "gato",
-                Type = "exp",
-                Value = 200
+            //new Budget
+            //{
+            //    id= 2,
+            //    Description = "gato",
+            //    Type = "exp",
+            //    Value = 200
 
-            },
+            //},
 
-            new Budget
-            {
-                id= 3,
-                Description = "Cavalo",
-                Type = "inc",
-                Value = 300
+            //new Budget
+            //{
+            //    id= 3,
+            //    Description = "Cavalo",
+            //    Type = "inc",
+            //    Value = 300
 
-            }
+            //}
         };
 
         public void add(Budget budgets)
         {
-            budgets.id = BudgetsList.Max(B => B.id) + 1;
+            if(BudgetsList.Count == 0) {
+                budgets.id = 0;
+            }
+            else
+            {
+                budgets.id = BudgetsList.Max(B => B.id) + 1;
+            }
+            
             BudgetsList.Add(budgets);
         }
 
@@ -52,6 +59,11 @@ namespace BudgetApi.Domain.memory
         {
             var allBudget = GetAllBudget();
             return allBudget.Where(bud => bud.id == id).FirstOrDefault();
+        }
+
+        public void remove(Budget budget)
+        {
+            BudgetsList.Remove(budget);            
         }
     }
 }
