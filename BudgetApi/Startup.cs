@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApi.Data;
 using BudgetApi.Domain.memory;
+using BudgetApi.Domain.repository.db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,6 +27,12 @@ namespace BudgetApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSingleton<IRepositoryBudget, RepositoryMemoryBudget>();
+            services.AddScoped<IRepositoryBudget, RepositoryDbBudget>();
+
+            services.AddDbContext<BudgetDbContext>(
+                        options => options.UseSqlServer(Configuration.GetConnectionString("BudgetSystem")));
+
             services.AddMvc();
             //services.AddCors();
             services.AddCors(options =>
@@ -34,7 +43,6 @@ namespace BudgetApi
                     });
             });
             
-            services.AddSingleton<IRepositoryBudget, RepositoryMemoryBudget>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

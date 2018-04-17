@@ -171,15 +171,16 @@ var budgetController = (()=> {
             //aqui faz a identificação se é um elemento novo ou se está pegando do servidor
             if(node.id === undefined){
                 let positionArray = data.allData[node.type].length;
-                if(positionArray >0){
-                    id = data.allData[node.type][data.allData[node.type].length - 1].id + 1;
-                } else{
-                    id = 0;
-                }
-
+                
                 //doPost(node);
                 //doPost1(node);
                 doPost2(node);
+                if(positionArray >0){
+                    id = data.allData[node.type][data.allData[node.type].length - 1].id + 1;
+                } else{ 
+                    id = 0;
+                }
+
                 newElement = new element(node,id);           
             }
 
