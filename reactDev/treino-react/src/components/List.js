@@ -2,13 +2,15 @@ import React from 'react'
 import ListCardIncome from './List/ListCardIncome'
 import ListCardExpense from './List/ListCardExpense'
 
-const List = () =>{
+const List = (props) =>{
     return(
         <div className="container clearfix">
                 
-                <ListCardIncome />
+                <ListCardIncome 
+                inc={props.inc} />
                 
-                <ListCardExpense />
+                <ListCardExpense
+                exp={props.exp} />
                 
             </div> 
     )

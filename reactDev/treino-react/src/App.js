@@ -102,7 +102,9 @@ class App extends Component {
             value={this.state.value}
             handleChange={this.onHandle}
             submit={this.handleSubmit} />
-          <List />
+          <List
+          inc={this.state.listProp["inc"]}
+          exp={this.state.listProp["exp"]} />
         </div>
 
       </div>
