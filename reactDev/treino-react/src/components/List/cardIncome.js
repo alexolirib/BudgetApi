@@ -7,7 +7,11 @@ const CardIncome = (props) =>{
             <div className="right clearfix">
                 <div className="item__value">{props.value}</div>
                 <div className="item__delete">
-                   <button className="item__delete--btn" id={props.id}><i className="ion-ios-close-outline"></i></button>
+                   <button className="item__delete--btn"
+                    onClick={props.remove}>
+                        <i className="ion-ios-close-outline"
+                        id={props.id}></i>
+                    </button>
                 </div>
             </div>
         </div>

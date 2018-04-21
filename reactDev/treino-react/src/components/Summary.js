@@ -23,7 +23,7 @@ const Summary = (props) =>{
                         <div className="budget__expenses--text">Expenses</div>
                         <div className="right clearfix">
                             <div className="budget__expenses--value" id="ExpensesId">{props.exp}</div>
-                            <div className="budget__expenses--percentage">45%</div>
+                            <div className="budget__expenses--percentage">{props.percentage}%</div>
                         </div>
                     </div>
                 </div>

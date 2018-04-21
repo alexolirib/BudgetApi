@@ -7,10 +7,12 @@ const List = (props) =>{
         <div className="container clearfix">
                 
                 <ListCardIncome 
-                inc={props.inc} />
+                inc={props.inc}
+                remove={props.removeBlock} />
                 
                 <ListCardExpense
-                exp={props.exp} />
+                exp={props.exp}
+                remove={props.removeBlock} />
                 
             </div> 
     )

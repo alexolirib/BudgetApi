@@ -3,10 +3,12 @@ import CardIncome from './CardIncome'
 
 class ListCardIncome extends React.Component {
 
-
+    blockRemove=(element)=>{
+        this.props.remove(parseFloat(element.target.id), "inc");
+    }
 
     render() {
-        const blockInterno = this.props.inc.map(element => <CardIncome key={element.id} {...element}  />) 
+        const blockInterno = this.props.inc.map(element => <CardIncome remove={this.blockRemove}  key={element.id} {...element}  />) 
         return (
             <div className="income">
                 <h2 className="icome__title">Income</h2>

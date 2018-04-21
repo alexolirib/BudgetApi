@@ -15,6 +15,7 @@ class App extends Component {
       inc: [],
       exp: []
     },
+    percentage: 0,
     amount: 0,
     type: 'inc',
     description: '',
@@ -45,6 +46,17 @@ class App extends Component {
         value: prevState.value
       }
 
+      if(prevState.type === "exp"){
+        obj.percentage = 0;
+        obj.percentageCalc = (inc) =>{
+          if(inc > 0){
+            obj.percentage = ((prevState.value/inc)*100).toFixed(2);
+          } else{
+            obj.percentage = 0;
+          }
+        }
+      }
+
       prevState.listProp[prevState.type].push(obj);
 
       //console.log(prevState);
@@ -62,10 +74,17 @@ class App extends Component {
       }
       for(let expense of prevState.listProp["exp"]){
         exp += parseFloat(expense.value);
+        expense.percentageCalc(inc);
+        console.log(expense.percentage);
       }
       prevState.valuesProp.inc = inc;
       prevState.valuesProp.exp = exp;
       prevState.amount = inc - exp;
+      if(inc > 0){
+        prevState.percentage = ((exp/inc)*100).toFixed(2);
+      } else{
+        prevState.percentage = 0;
+      }
       return prevState;
     })
   }
@@ -88,13 +107,29 @@ class App extends Component {
     console.log("Entrou");
   }
 
+  removeBlock = (id,type) => {
+    console.log(`id - ${id} e o type - ${type}`);
+    this.setState(prevState=>{
+      let index = 0;
+      for(let list of prevState.listProp[type]){
+        if(list.id === id){
+          prevState.listProp[type].splice(index,1);
+        }
+        index++;
+      }
+      return prevState;
+    })
+    this.updateValue();
+  }
+
   render() {
     return (
       <div className="App">
         <Summary
           inc={this.state.valuesProp["inc"]}
           exp={this.state.valuesProp["exp"]}
-          amount={this.state.amount} />
+          amount={this.state.amount}
+          percentage={this.state.percentage} />
         <div className="bottom">
           <Input
             type={this.state.type}
@@ -104,7 +139,8 @@ class App extends Component {
             submit={this.handleSubmit} />
           <List
           inc={this.state.listProp["inc"]}
-          exp={this.state.listProp["exp"]} />
+          exp={this.state.listProp["exp"]}
+          removeBlock={this.removeBlock} />
         </div>
 
       </div>
