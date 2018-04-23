@@ -8,7 +8,11 @@ class ListCardIncome extends React.Component {
     }
 
     render() {
-        const blockInterno = this.props.inc.map(element => <CardIncome remove={this.blockRemove}  key={element.id} {...element}  />) 
+        const blockInterno = this.props.inc.map(element => <CardIncome
+            remove={this.blockRemove} 
+            key={element.id}
+            {...element}
+              />) 
         return (
             <div className="income">
                 <h2 className="icome__title">Income</h2>

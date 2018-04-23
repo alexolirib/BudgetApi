@@ -8,7 +8,8 @@ const List = (props) =>{
                 
                 <ListCardIncome 
                 inc={props.inc}
-                remove={props.removeBlock} />
+                remove={props.removeBlock}
+                update={props.update} />
                 
                 <ListCardExpense
                 exp={props.exp}
