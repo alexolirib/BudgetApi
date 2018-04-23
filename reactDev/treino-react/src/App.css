@@ -14,6 +14,15 @@
   clear: both;
 }
 
+.hour {
+  height: 30px;
+}
+
+.time {;
+  font-size: 20px;
+  color: red;
+}
+
 body {
   color: #555;
   font-family: Open Sans;

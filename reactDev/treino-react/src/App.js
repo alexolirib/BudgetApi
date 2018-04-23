@@ -5,6 +5,7 @@ import Summary from './components/Summary'
 import Input from './components/Input'
 import List from './components/List'
 import axios from 'axios'
+import Hours from './components/Hours'
 
 class App extends Component {
   constructor(props) {
@@ -152,6 +153,10 @@ class App extends Component {
   componentWillMount() {
     console.log("Start Application");
 
+    
+  }
+
+  componentDidMount(){
     //request HTTP
     axios.get(this.state.request)
       .then(resp => {
@@ -175,6 +180,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Hours />
         <Summary
           inc={this.state.valuesProp["inc"]}
           exp={this.state.valuesProp["exp"]}

@@ -1,12 +1,14 @@
 import React from 'react'
 
 const Summary = (props) =>{
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var month = new Date().getMonth();
     return(
         <div>
             <div className="top">
                 <div className="budget">
                     <div className="budget__title">
-                        Available Budget in <span className="budget__title--month">%Month%</span>:
+                        Available Budget in <span className="budget__title--month">{months[month]}</span>:
                     </div>
                     
                     <div className="budget__value">{props.amount}</div>
