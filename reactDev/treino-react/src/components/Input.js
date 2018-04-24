@@ -8,6 +8,7 @@ class Input extends React.Component {
 
     saveApp = (event) => {
         event.preventDefault();
+        this.descriptionInput.focus();
         this.props.submit();
         //console.log("Type -"+ this.state.type +"  Description -"+this.state.description + " value - " + this.state.value)
 
@@ -30,6 +31,7 @@ class Input extends React.Component {
                                 required
                                 name="description"
                                 placeholder="Add description"
+                                ref={(inputText)=>this.descriptionInput = inputText}
                                 value={this.props.description}
                                 onChange={this.changeHandle} />
 

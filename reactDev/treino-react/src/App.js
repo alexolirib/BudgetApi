@@ -131,7 +131,9 @@ class App extends Component {
     if (this.state.description.trim() !== "" && this.state.value > 0 && !isNaN(this.state.value)) {
       this.setupValue();
       this.updateValue();
+      
     }
+    this.cleanInput();
     //console.log(this.state)
   }
 
@@ -196,8 +198,7 @@ class App extends Component {
           <List
             inc={this.state.listProp["inc"]}
             exp={this.state.listProp["exp"]}
-            removeBlock={this.removeBlock}
-            update={this.updateValue} />
+            removeBlock={this.removeBlock} />
         </div>
 
       </div>
